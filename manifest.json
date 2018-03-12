@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "VideaČesky.cz na YouTube",
-    "version": "0.22",
+    "version": "0.23",
     "description": "Zkontroluje si, zda je video na YouTube již přeložené na Videacesky.cz.",
     "author": "Jan Richter",
     "icons": {
@@ -28,5 +28,10 @@
     "-ms-preload": {
         "backgroundScript": "backgroundScriptsAPIBridge.js",
         "contentScript": "contentScriptsAPIBridge.js"
+    },
+    "applications": {
+        "gecko": {
+            "id": "videacesky@richja.cz"
+        }
     }
 }

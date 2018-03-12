@@ -88,7 +88,7 @@ function displayResults(response, id) {
             var divContent = "<a href='" + result.url + "' class='" + hrefClass + " ext-videacesky-success'>Přehrát na videacesky.cz</a>";
         }
         else {
-                var divContent = "<a href='#' class='" + hrefClass + " ext-videacesky-success'>Právě překládáme na videacesky.cz</a>";
+            var divContent = "<a href='https://videacesky.cz' target='_blank' class='" + hrefClass + " ext-videacesky-success'>Již brzy na videacesky.cz</a>";
         }
     }
     else {
