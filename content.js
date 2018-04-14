@@ -106,7 +106,6 @@ function prepareResults(response, id) {
 }
 
 function renderResults(divObj) {
-    console.log(divObj);
     divObj.vcDiv.innerHTML = divObj.divContent;
     divObj.parent.insertBefore(divObj.vcDiv, divObj.subButton);
 }
