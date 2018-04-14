@@ -62,49 +62,51 @@ function searchVideo(id) {
  */
 function prepareResults(response, id) {
     var result = JSON.parse(response);
+    var divObj = {};
 
     if (isNewYoutube) {
-        var subButton = document.getElementsByTagName("ytd-video-owner-renderer")[0].nextSibling;
-        var parent = document.getElementById("top-row");
+        divObj.subButton = document.getElementsByTagName("ytd-video-owner-renderer")[0].nextSibling;
+        divObj.parent = document.getElementById("top-row");
     }
     else {
-        var subButton = document.getElementById("yt-uix-button-subscription-container");
-        var parent = document.getElementById("watch7-user-header");
+        divObj.subButton = document.getElementById("yt-uix-button-subscription-container");
+        divObj.parent = document.getElementById("watch7-user-header");
     }
 
     if (document.getElementById("ext-videacesky-id")) {
-        var vcDiv = document.getElementById("ext-videacesky-id");
+        divObj.vcDiv = document.getElementById("ext-videacesky-id");
     }
     else {
-        var vcDiv = document.createElement("div");
-        vcDiv.className = isNewYoutube ? "ext-videacesky-wrapper" : "ext-videacesky-wrapper-old";
-        vcDiv.id = "ext-videacesky-id";
+        divObj.vcDiv = document.createElement("div");
+        divObj.vcDiv.className = isNewYoutube ? "ext-videacesky-wrapper" : "ext-videacesky-wrapper-old";
+        divObj.vcDiv.id = "ext-videacesky-id";
     }
 
     var hrefClass = isNewYoutube ? "ext-videacesky-href" : "ext-videacesky-href ext-videacesky-href-old";
 
     if (result.status) {
         if (result.published) {
-            var divContent = "<a href='" + result.url + "' class='" + hrefClass + " ext-videacesky-success'>Přehrát na videacesky.cz</a>";
+            divObj.divContent = "<a href='" + result.url + "' class='" + hrefClass + " ext-videacesky-success'>Přehrát na videacesky.cz</a>";
         }
         else {
-            var divContent = "<a href='https://videacesky.cz' target='_blank' class='" + hrefClass + " ext-videacesky-success'>Již brzy na videacesky.cz</a>";
+            divObj.divContent = "<a href='https://videacesky.cz' target='_blank' class='" + hrefClass + " ext-videacesky-success'>Již brzy na videacesky.cz</a>";
         }
 
-        renderResults(vcDiv, divContent, subButton, parent);
+        renderResults(divObj);
     }
     else {
         chrome.storage.sync.get("defaultEmail", function(data) {
             console.log(data, typeof data.defaultEmail);
             var query = typeof data.defaultEmail === "string" ? id + "&entry.1991203886=" + data.defaultEmail : id;
-            var divContent = "<a href='https://docs.google.com/forms/d/e/1FAIpQLSf7LhmXpCijd-3DjKtdSPwKsSk9U4Q0NcIfHnETcuYjil9t9g/viewform?entry.979401215=https://youtu.be/" + query + "' class='" + hrefClass + " ext-videacesky-nope' target='_blank'>Navrhnout na překlad?</a>";
+            divObj.divContent = "<a href='https://docs.google.com/forms/d/e/1FAIpQLSf7LhmXpCijd-3DjKtdSPwKsSk9U4Q0NcIfHnETcuYjil9t9g/viewform?entry.979401215=https://youtu.be/" + query + "' class='" + hrefClass + " ext-videacesky-nope' target='_blank'>Navrhnout na překlad?</a>";
     
-            renderResults(vcDiv, divContent, subButton, parent);
+            renderResults(divObj);
         });
     }
 }
 
-function renderResults(vcDiv, divContent, subButton, parent) {
-    vcDiv.innerHTML = divContent;
-    parent.insertBefore(vcDiv, subButton);
+function renderResults(divObj) {
+    console.log(divObj);
+    divObj.vcDiv.innerHTML = divObj.divContent;
+    divObj.parent.insertBefore(divObj.vcDiv, divObj.subButton);
 }
