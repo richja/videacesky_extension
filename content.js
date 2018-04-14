@@ -45,7 +45,7 @@ function searchVideo(id) {
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4 && this.status === 200) {
-            displayResults(this.responseText, id);
+            prepareResults(this.responseText, id);
         }
     });
 
@@ -55,12 +55,12 @@ function searchVideo(id) {
 }
 
 /**
- * Handle response of an API and display results
+ * Handle response of an API and prepare results
  *
  * @param response XMLHttpRequest response object with results of API request
  * @param id YouTube video ID
  */
-function displayResults(response, id) {
+function prepareResults(response, id) {
     var result = JSON.parse(response);
 
     if (isNewYoutube) {
@@ -90,11 +90,21 @@ function displayResults(response, id) {
         else {
             var divContent = "<a href='https://videacesky.cz' target='_blank' class='" + hrefClass + " ext-videacesky-success'>Již brzy na videacesky.cz</a>";
         }
+
+        renderResults(vcDiv, divContent, subButton, parent);
     }
     else {
-        var divContent = "<a href='https://docs.google.com/forms/d/e/1FAIpQLSf7LhmXpCijd-3DjKtdSPwKsSk9U4Q0NcIfHnETcuYjil9t9g/viewform?entry.979401215=https://youtu.be/" + id + "' class='" + hrefClass + " ext-videacesky-nope' target='_blank'>Navrhnout na překlad?</a>";
+        chrome.storage.sync.get("defaultEmail", function(data) {
+            console.log(data, typeof data.defaultEmail);
+            var query = typeof data.defaultEmail === "string" ? id + "&entry.1991203886=" + data.defaultEmail : id;
+            var divContent = "<a href='https://docs.google.com/forms/d/e/1FAIpQLSf7LhmXpCijd-3DjKtdSPwKsSk9U4Q0NcIfHnETcuYjil9t9g/viewform?entry.979401215=https://youtu.be/" + query + "' class='" + hrefClass + " ext-videacesky-nope' target='_blank'>Navrhnout na překlad?</a>";
+    
+            renderResults(vcDiv, divContent, subButton, parent);
+        });
     }
+}
 
+function renderResults(vcDiv, divContent, subButton, parent) {
     vcDiv.innerHTML = divContent;
     parent.insertBefore(vcDiv, subButton);
 }
