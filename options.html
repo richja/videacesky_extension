@@ -1,37 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Nastavení pro VideaČesky.cz na YouTube</title>
-  <meta charset="UTF-8">
-  <style>
-    body {
-        padding: 10px 10px 10px 0;
-        font-size: 16px;
-        margin: 20px;
-    }
+    <title>Nastavení pro VideaČesky.cz na YouTube</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            width: 20rem;
+        }
 
-    input {
-        font-size: inherit;
-        margin: 10px 10px 10px 0;
-    }
+        header {
+            padding: 10px 10px 10px 20px;
+            font-size: 1.4em;
+            color: #fff;
+            font-weight: 700;
+            background-color: #057EF1;
+        }
 
-    #status {
-        color: green;
-        height: 1em;
-    }
-  </style>
+        section {
+            padding: 10px;
+            margin-left: 10px;
+        }
+
+        footer {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            font-size: inherit;
+            margin: 10px 10px 10px 0;
+        }
+
+        input:invalid {
+            outline-color: red;
+        }
+
+        #status {
+            color: green;
+            height: 1em;
+        }
+    </style>
 </head>
 
 <body>
-  <label>
-    Ulož zde svůj e-mail a budeš ho mít vždy předvyplněný při zadávání požadavku o překlad.
-    <input type="email" id="email" name="email" placeholder="Tvůj e-mail">
-  </label>
-  <br />
-  <button id="save">Uložit</button>
-  <div id="status"></div>
-  <br />
-  
-  <script src="options.js"></script>
+    <header>VideaČesky.cz</header>
+    <section>
+        <label>
+            Ulož zde svůj e-mail a budeš ho mít vždy předvyplněný při zadávání požadavku o překlad.
+            <br />
+            <input type="email" id="email" name="email" placeholder="Tvůj e-mail">
+        </label>
+    </section>
+    <footer>
+        <button id="save">Uložit</button>
+        <span id="status"></span>
+    </footer>
+
+    <script src="options.js"></script>
 </body>
 </html>
