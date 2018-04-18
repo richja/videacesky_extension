@@ -66,7 +66,7 @@ function prepareResults(response, id) {
 
     if (isNewYoutube) {
         divObj.subButton = document.getElementsByTagName("ytd-video-owner-renderer")[0].nextSibling;
-        divObj.parent = document.getElementById("top-row");
+        divObj.parent = document.querySelectorAll("#top-row.ytd-video-secondary-info-renderer")[0];
     }
     else {
         divObj.subButton = document.getElementById("yt-uix-button-subscription-container");
