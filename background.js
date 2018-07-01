@@ -3,18 +3,12 @@ function ShowPageAction(tabId, changeInfo, tab) {
 	chrome.pageAction.show(tabId);
 }
 
-// Chrome v.33+
-chrome.runtime.onInstalled.addListener(function(details) {
-	chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-		chrome.declarativeContent.onPageChanged.addRules([{
-			conditions: [
-				new chrome.declarativeContent.PageStateMatcher({
-					pageUrl: {
-						hostContains: 'youtube.com'
-					}
-				})
-			],
-			actions: [new chrome.declarativeContent.ShowPageAction()]
-		}]);
-	});
+// chrome.declarativeContent API not yet implemented in Firefox
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+	if (changeInfo.url && changeInfo.status==='complete' && tab.url.match(/youtube.com/)) {
+		chrome.pageAction.show(tabId);
+	} else {
+		chrome.pageAction.hide(tabId);
+	}
 });
+
