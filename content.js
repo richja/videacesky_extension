@@ -96,8 +96,8 @@ function prepareResults(response, id) {
     }
     else {
         chrome.storage.sync.get("defaultEmail", function(data) {
-            var query = typeof data.defaultEmail === "string" ? id + "&entry.1991203886=" + data.defaultEmail : id;
-            divObj.divContent = "<a href='https://docs.google.com/forms/d/e/1FAIpQLSf7LhmXpCijd-3DjKtdSPwKsSk9U4Q0NcIfHnETcuYjil9t9g/viewform?entry.979401215=https://youtu.be/" + query + "' class='" + hrefClass + " ext-videacesky-nope' target='_blank'>Navrhnout na překlad?</a>";
+            var query = typeof data.defaultEmail === "string" ? id + "&tip_video_email=" + data.defaultEmail : id;
+            divObj.divContent = "<a href='https://videacesky.cz/pridat-tip/?tip_video_url=https://youtu.be/" + query + "' class='" + hrefClass + " ext-videacesky-nope' target='_blank'>Navrhnout na překlad?</a>";
     
             renderResults(divObj);
         });
