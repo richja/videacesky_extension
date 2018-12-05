@@ -39,7 +39,7 @@
     "permissions": [
         "https://videacesky.herokuapp.com/",
         "storage",
-        "declarativeContent"
+        "tabs"
     ],
     "-ms-preload": {
         "backgroundScript": "backgroundScriptsAPIBridge.js",
