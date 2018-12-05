@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "VideaČesky.cz na YouTube",
-    "version": "0.28",
+    "version": "0.30",
     "description": "Zkontroluje si, zda je video na YouTube již přeložené na Videacesky.cz.",
     "author": "Jan Richter",
     "icons": {
