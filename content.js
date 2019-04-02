@@ -43,6 +43,10 @@ function searchVideo(id) {
 
     var xhr = new XMLHttpRequest();
 
+    console.log("sending message");
+
+    chrome.runtime.sendMessage(data);
+
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4 && this.status === 200) {
             prepareResults(this.responseText, id);
@@ -50,7 +54,7 @@ function searchVideo(id) {
     });
 
     xhr.open("POST", "https://videacesky.herokuapp.com/check", true);
-    xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(data);
 }
 
