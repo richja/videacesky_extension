@@ -1,19 +1,42 @@
 var isNewYoutube = !document.getElementById("yt-masthead");
+var subButton;
 
-//for new material YouTube
-if (isNewYoutube) {
-    window.addEventListener("yt-navigate-finish", function(event) {
-        getVideoId(document.location.search);
-    });
-}
-//for old style YouTube
-else {
+//to fire new request when going back/forward in history
+window.addEventListener("popstate", function (event) {
     getVideoId(document.location.search);
+});
 
-    window.addEventListener("spfdone", function(event) {
+var observer = new MutationObserver(function (mutations, me) {
+    subButton = isNewYoutube ? document.getElementsByTagName("ytd-video-owner-renderer")[0]
+        : document.getElementById("yt-uix-button-subscription-container");
+
+    if (subButton) {
         getVideoId(document.location.search);
-    });
-}
+        me.disconnect();
+
+        //for new material YouTube
+        if (isNewYoutube) {
+            window.addEventListener("yt-navigate-start", function (event) {
+                getVideoId(document.location.search);
+            });
+        }
+        //for old style YouTube
+        else {
+            getVideoId(document.location.search);
+
+            window.addEventListener("spfdone", function (event) {
+                getVideoId(document.location.search);
+            });
+        }
+
+        return;
+    }
+});
+
+observer.observe(document, {
+    childList: true,
+    subtree: true
+});
 
 /**
  * Parse URL and fetch YouTube video ID
@@ -29,6 +52,7 @@ function getVideoId(queryString) {
         var param = tokens[0].toLowerCase();
         if (param === "v") {
             searchVideo(tokens[1]);
+            break;
         }
     }
 }
@@ -43,6 +67,8 @@ function searchVideo(id) {
 
     var xhr = new XMLHttpRequest();
 
+    console.log("sending request", id);
+
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4 && this.status === 200) {
             prepareResults(this.responseText, id);
@@ -50,7 +76,7 @@ function searchVideo(id) {
     });
 
     xhr.open("POST", "https://videacesky.herokuapp.com/check", true);
-    xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(data);
 }
 
@@ -65,11 +91,11 @@ function prepareResults(response, id) {
     var divObj = {};
 
     if (isNewYoutube) {
-        divObj.subButton = document.getElementsByTagName("ytd-video-owner-renderer")[0].nextSibling;
+        divObj.subButton = subButton.nextSibling;
         divObj.parent = document.querySelectorAll("#top-row.ytd-video-secondary-info-renderer")[0];
     }
     else {
-        divObj.subButton = document.getElementById("yt-uix-button-subscription-container");
+        divObj.subButton = subButton;
         divObj.parent = document.getElementById("watch7-user-header");
     }
 
@@ -95,15 +121,19 @@ function prepareResults(response, id) {
         renderResults(divObj);
     }
     else {
-        chrome.storage.sync.get("defaultEmail", function(data) {
+        chrome.storage.sync.get("defaultEmail", function (data) {
             var query = typeof data.defaultEmail === "string" ? id + "&tip_video_email=" + data.defaultEmail : id;
             divObj.divContent = "<a href='https://videacesky.cz/pridat-tip/?tip_video_url=https://youtu.be/" + query + "' class='" + hrefClass + " ext-videacesky-nope' target='_blank'>Navrhnout na překlad?</a>";
-    
+
             renderResults(divObj);
         });
     }
 }
 
+/**
+ * 
+ * @param divObj object with elemenet details to render 
+ */
 function renderResults(divObj) {
     divObj.vcDiv.innerHTML = divObj.divContent;
     divObj.parent.insertBefore(divObj.vcDiv, divObj.subButton);
