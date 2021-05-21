@@ -7,7 +7,7 @@ window.addEventListener("popstate", function (event) {
 });
 
 var observer = new MutationObserver(function (mutations, me) {
-    subButton = isNewYoutube ? document.getElementsByTagName("ytd-video-owner-renderer")[0]
+    subButton = isNewYoutube ? document.getElementsByTagName("ytd-video-owner-renderer")[1]
         : document.getElementById("yt-uix-button-subscription-container");
 
     if (subButton) {
