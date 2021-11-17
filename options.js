@@ -2,7 +2,7 @@
 function save_options() {
     var email = document.getElementById('email').value;
     chrome.storage.sync.set({
-        defaultEmail: email,
+        defaultEmail: email
     }, function() {
         // Update status to let user know options were saved.
         var status = document.getElementById('status');
@@ -16,9 +16,8 @@ function save_options() {
   // Restores select box and checkbox state using the preferences
   // stored in chrome.storage.
 function restore_options() {
-    // Use default value color = 'red' and likesColor = true.
     chrome.storage.sync.get({
-        defaultEmail: '',
+        defaultEmail: ''
     }, function(items) {
         document.getElementById('email').value = items.defaultEmail;
     });
