@@ -7,7 +7,7 @@ window.addEventListener("popstate", function (event) {
 });
 
 var observer = new MutationObserver(function (mutations, me) {
-    subButton = isNewYoutube ? document.getElementsByTagName("ytd-video-owner-renderer")[1]
+    subButton = isNewYoutube ? document.getElementById("subscribe-button")
         : document.getElementById("yt-uix-button-subscription-container");
 
     if (subButton) {
@@ -31,6 +31,7 @@ var observer = new MutationObserver(function (mutations, me) {
 
         return;
     }
+    console.error("VC extension: subscribe button not found")
 });
 
 observer.observe(document, {
@@ -91,7 +92,7 @@ function prepareResults(response, id) {
     var divObj = {};
 
     if (isNewYoutube) {
-        divObj.subButton = subButton.nextSibling;
+        divObj.subButton = document.querySelectorAll("#top-row>#subscribe-button")[1];
         divObj.parent = document.querySelectorAll("#top-row.ytd-video-secondary-info-renderer")[0];
     }
     else {
