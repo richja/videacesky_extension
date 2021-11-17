@@ -1,9 +1,9 @@
-// Show page action icon in omnibar.
-function ShowPageAction(tabId, changeInfo, tab) {
-	chrome.pageAction.show(tabId);
+// Show action icon in omnibar.
+function ShowAction(tabId, changeInfo, tab) {
+	chrome.action.show(tabId);
 }
 
-// Chrome v.33+
+// Manifest V3
 chrome.runtime.onInstalled.addListener(function(details) {
 	chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
 		chrome.declarativeContent.onPageChanged.addRules([{
@@ -14,7 +14,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
 					}
 				})
 			],
-			actions: [new chrome.declarativeContent.ShowPageAction()]
+			actions: [new chrome.declarativeContent.ShowAction()]
 		}]);
 	});
 });

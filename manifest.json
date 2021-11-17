@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "VideaČesky.cz na YouTube",
     "version": "0.43",
     "description": "Zkontroluje si, zda je video na YouTube již přeložené na Videacesky.cz.",
@@ -22,7 +22,7 @@
             ]
         }
     ],
-    "page_action": {
+    "action": {
         "default_icon": {
             "16": "icon16.png"
         },
@@ -30,8 +30,7 @@
         "default_popup": "options.html"
     },
     "background" : {
-        "scripts": ["background.js"],
-        "persistent": false
+        "service_worker": "background.js"
     },
     "options_ui": {
         "page": "options.html"
