@@ -1,17 +1,6 @@
 .ext-videacesky-wrapper {
-    display: flex;
-    -webkit-flex-direction: column;
-    flex-direction: column;
-    -webkit-justify-content: center;
-    justify-content: center;
-    margin: 0 10px 0 0;
-}
-
-.ext-videacesky-wrapper-old {
     display: inline-block;
-    margin: 0 0 0 10px;
-    position: absolute;
-    bottom: 11px;
+    margin-top: 1.2em;
 }
 
 .ext-videacesky-href {
@@ -26,36 +15,15 @@
     text-decoration: none;
 }
 
-.ext-videacesky-href:hover, .ext-videacesky-href:focus {
-    text-decoration: none;
+.ext-videacesky-new-look {
+    border-radius: 18px;
 }
 
-
-.ext-videacesky-href-old {
-    padding: 5px;
-    font-size: inherit;
+.ext-videacesky-href:hover, .ext-videacesky-href:focus {
+    text-decoration: none;
 }
 
 .ext-videacesky-nope {
     background: #EEE;
     color: rgba(17, 17, 17, .6);
-}
-
-.ext-paid-notify-close-btn {
-    float: right;
-    padding: 14px 20px;
-    margin: -20px;
-    font-size: 1.5em;
-    background-color: #AF4B31;
-    cursor: pointer;
-    color: inherit;
-    line-height: inherit;
-}
-
-.ext-paid-notify-close-btn:hover {
-    opacity: .8;
-}
-
-.ext-paid-notify-close-btn:active{
-    opacity: .9;
 }

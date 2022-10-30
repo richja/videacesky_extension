@@ -1,33 +1,20 @@
-var isNewYoutube = !document.getElementById("yt-masthead");
-var subButton;
+let subButton;
 
 //to fire new request when going back/forward in history
 window.addEventListener("popstate", function (event) {
     getVideoId(document.location.search);
 });
 
-var observer = new MutationObserver(function (mutations, me) {
-    subButton = isNewYoutube ? document.getElementById("subscribe-button")
-        : document.getElementById("yt-uix-button-subscription-container");
+const observer = new MutationObserver(function (mutations, me) {
+    subButton = document.getElementById("bottom-row");
 
     if (subButton) {
         getVideoId(document.location.search);
         me.disconnect();
 
-        //for new material YouTube
-        if (isNewYoutube) {
-            window.addEventListener("yt-navigate-start", function (event) {
-                getVideoId(document.location.search);
-            });
-        }
-        //for old style YouTube
-        else {
+        window.addEventListener("yt-navigate-finish", function (event) {
             getVideoId(document.location.search);
-
-            window.addEventListener("spfdone", function (event) {
-                getVideoId(document.location.search);
-            });
-        }
+        });
 
         return;
     }
@@ -45,12 +32,12 @@ observer.observe(document, {
  * @param queryString query string of URL
  */
 function getVideoId(queryString) {
-    var searchQueryRaw = queryString.substring(1);
-    var searchQuery = searchQueryRaw.split('&');
+    const searchQueryRaw = queryString.substring(1);
+    const searchQuery = searchQueryRaw.split('&');
 
-    for (var i = 0; i < searchQuery.length; i++) {
-        var tokens = searchQuery[i].split('=');
-        var param = tokens[0].toLowerCase();
+    for (let i = 0; i < searchQuery.length; i++) {
+        const tokens = searchQuery[i].split('=');
+        const param = tokens[0].toLowerCase();
         if (param === "v") {
             searchVideo(tokens[1]);
             break;
@@ -64,9 +51,9 @@ function getVideoId(queryString) {
  * @param id YouTube video ID
  */
 function searchVideo(id) {
-    var data = "url=" + id;
+    const data = "url=" + id;
 
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
 
     console.log("sending request", id);
 
@@ -88,28 +75,23 @@ function searchVideo(id) {
  * @param id YouTube video ID
  */
 function prepareResults(response, id) {
-    var result = JSON.parse(response);
-    var divObj = {};
+    const result = JSON.parse(response);
+    const divObj = {};
 
-    if (isNewYoutube) {
-        divObj.subButton = document.querySelectorAll("#top-row>#subscribe-button")[1];
-        divObj.parent = document.querySelectorAll("#top-row.ytd-video-secondary-info-renderer")[0];
-    }
-    else {
-        divObj.subButton = subButton;
-        divObj.parent = document.getElementById("watch7-user-header");
-    }
+    divObj.subButton = subButton;
+    divObj.parent = subButton.parentElement;
 
     if (document.getElementById("ext-videacesky-id")) {
         divObj.vcDiv = document.getElementById("ext-videacesky-id");
     }
     else {
         divObj.vcDiv = document.createElement("div");
-        divObj.vcDiv.className = isNewYoutube ? "ext-videacesky-wrapper" : "ext-videacesky-wrapper-old";
+        divObj.vcDiv.className = "ext-videacesky-wrapper";
         divObj.vcDiv.id = "ext-videacesky-id";
     }
 
-    var hrefClass = isNewYoutube ? "ext-videacesky-href" : "ext-videacesky-href ext-videacesky-href-old";
+    const isNewLook = document.getElementsByClassName("yt-spec-touch-feedback-shape").length;
+    const hrefClass = isNewLook ? "ext-videacesky-href ext-videacesky-new-look" : "ext-videacesky-href";
 
     if (result.status) {
         if (result.published) {
@@ -123,7 +105,7 @@ function prepareResults(response, id) {
     }
     else {
         chrome.storage.sync.get("defaultEmail", function (data) {
-            var query = typeof data.defaultEmail === "string" ? id + "&tip_video_email=" + data.defaultEmail : id;
+            const query = typeof data.defaultEmail === "string" ? id + "&tip_video_email=" + data.defaultEmail : id;
             divObj.divContent = "<a href='https://videacesky.cz/pridat-tip/?tip_video_url=https://youtu.be/" + query + "' class='" + hrefClass + " ext-videacesky-nope' target='_blank'>Navrhnout na překlad?</a>";
 
             renderResults(divObj);
