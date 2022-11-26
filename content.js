@@ -63,7 +63,7 @@ function searchVideo(id) {
         }
     });
 
-    xhr.open("POST", "https://videacesky.herokuapp.com/check", true);
+    xhr.open("POST", "https://vc.richja.cz/check", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(data);
 }
